@@ -30,3 +30,7 @@ Only the name Rex Ruan and the selected email address appear as personal identit
 ## Visual reference
 
 Homepage layout reference: https://w1llbean.github.io/. The engineering workstation image is reused from that reference for the requested visual reproduction and is presented as an illustrative environment, not a photograph of the site owner’s workplace.
+
+## Navigation
+
+All pages share the same six navigation destinations: Home (`index.html`), Work (`work.html`), Resume (`resume.html`), About (`about.html`), Skills (`skills.html`), and Contact (`contact.html`). Update navigation labels and destinations in `navigation.js`; common header styles live in `navigation.css`. Language choice is preserved across pages.

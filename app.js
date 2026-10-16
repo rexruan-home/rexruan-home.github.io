@@ -23,14 +23,13 @@ function render(){
  document.title='Resume | Rex Ruan';
  document.querySelectorAll('[data-zh][data-en]').forEach(el=>el.innerHTML=el.dataset[language]);
  const button=document.querySelector('.language');button.textContent=language==='en'?'中文':'EN';button.setAttribute('aria-label',language==='en'?'切换至中文':'Switch to English');
- const resumePage=location.pathname.endsWith('/resume.html');
- document.querySelectorAll('.home-nav,.resume-nav').forEach(a=>{const active=a.classList.contains(resumePage?'resume-nav':'home-nav');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
- document.querySelectorAll('a[href^="index.html"],a[href^="resume.html"]').forEach(a=>a.href=(a.classList.contains('resume-nav')?'resume.html':'index.html')+'?lang='+language);
- document.getElementById('experience-list').innerHTML=experience.map((e,i)=>`<article class="experience-entry"><div class="entry-heading"><h3>${tr(e.role)}</h3><time>${language==='zh'?e.date.replace('PRESENT','至今'):e.date}</time></div><p class="company">${tr(e.company)}</p><h4 class="detail-label">${language==='zh'?'产品与工程范围':'PRODUCTS & ENGINEERING'}</h4><ul class="scope-list">${list(tr(experienceDetails[i].scope))}</ul><h4 class="detail-label">${language==='zh'?'职责与交付':'RESPONSIBILITIES & DELIVERY'}</h4><ol class="responsibilities">${list(tr(experienceDetails[i].bullets))}</ol></article>`).join('');
- document.getElementById('project-list').innerHTML=projects.map((p,i)=>`<article class="project-entry"><div class="entry-heading"><div class="project-title"><span class="index">0${i+1}</span><h3>${p.name}</h3></div><time>${p.date}</time></div><p class="project-subtitle">${tr(p.title)}</p><p class="project-description">${tr(p.description)}</p><div class="project-metric"><strong>${tr(p.fact)}</strong><span>${tr(p.caption)}</span></div><ul>${list(tr(p.details))}</ul><div class="tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div></article>`).join('');
- document.getElementById('year').textContent=new Date().getFullYear();
+ window.updateSiteNavigation(language);
+ if(document.body.dataset.titleEn)document.title=(language==='en'?document.body.dataset.titleEn:document.body.dataset.titleZh)+' | Rex Ruan';
+ if(document.getElementById('experience-list'))document.getElementById('experience-list').innerHTML=experience.map((e,i)=>`<article class="experience-entry"><div class="entry-heading"><h3>${tr(e.role)}</h3><time>${language==='zh'?e.date.replace('PRESENT','至今'):e.date}</time></div><p class="company">${tr(e.company)}</p><h4 class="detail-label">${language==='zh'?'产品与工程范围':'PRODUCTS & ENGINEERING'}</h4><ul class="scope-list">${list(tr(experienceDetails[i].scope))}</ul><h4 class="detail-label">${language==='zh'?'职责与交付':'RESPONSIBILITIES & DELIVERY'}</h4><ol class="responsibilities">${list(tr(experienceDetails[i].bullets))}</ol></article>`).join('');
+ if(document.getElementById('project-list'))document.getElementById('project-list').innerHTML=projects.map((p,i)=>`<article class="project-entry"><div class="entry-heading"><div class="project-title"><span class="index">0${i+1}</span><h3>${p.name}</h3></div><time>${p.date}</time></div><p class="project-subtitle">${tr(p.title)}</p><p class="project-description">${tr(p.description)}</p><div class="project-metric"><strong>${tr(p.fact)}</strong><span>${tr(p.caption)}</span></div><ul>${list(tr(p.details))}</ul><div class="tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div></article>`).join('');
+ if(document.getElementById('year'))document.getElementById('year').textContent=new Date().getFullYear();
  try{localStorage.setItem('rex-language',language)}catch{}
 }
 render();
 document.querySelector('.language').addEventListener('click',()=>{language=language==='zh'?'en':'zh';const url=new URL(location.href);url.searchParams.set('lang',language);history.replaceState(null,'',url);render()});
-document.querySelector('.print-button').addEventListener('click',()=>window.print());
+document.querySelector('.print-button')?.addEventListener('click',()=>window.print());
